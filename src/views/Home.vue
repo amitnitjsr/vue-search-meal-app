@@ -1,33 +1,25 @@
 <template>
-    <div class="flex flex-col p-8 ">
-        <input type="text" class="rounded border-2 border-grey-200 w-full" 
-        placeholder="Search for Meals" />
-        
+    <div class="p-8 pb-0 text-orange-500">
+    <h1 class="text-4xl font-bold mb-4">Random Meals</h1>
     </div>
+    <Meals :meals="meals" />
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import store from '../store';
-import { onMounted } from 'vue';
+
+import { onMounted, ref } from 'vue';
 import axiosClient from '../axiosClient.js'
-// const meals = computed(() => store.state.meals);
+import Meals from '../components/Meals.vue'
 
 
+const meals = ref([]);
 
-
-onMounted(async () =>{
-  const response = await axiosClient.get('/list.php?i=list');
-
+onMounted(async () => {
+  for (let i = 0; i < 10; i++) {
+    axiosClient
+      .get(`random.php`)
+      .then(({ data }) => meals.value.push(data.meals[0]));
+  }
 });
-//   console.log(response.data)
-// fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list',{
-//     method: "GET",
-//     headers: {'Content-Type': 'application/json; charset=utf-8'}
-// })
-// .then(error)
-// .then((res)=>{
-//     console.log(res)
-// })
-// })
+
 </script>

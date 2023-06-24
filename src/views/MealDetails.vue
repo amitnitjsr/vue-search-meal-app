@@ -64,10 +64,10 @@ const route = useRoute();
 const meal = ref({});
 
 onMounted(() => {
-    axiosClient.get(`lookup.php?i=${route.params.id}`)
-        .then(({ data }) => {
-
-        })
+  axiosClient.get(`lookup.php?i=${route.params.id}`)
+    .then(({ data }) => {
+      meal.value = data.meals[0] || {}
+    })
 })
 
 </script>
